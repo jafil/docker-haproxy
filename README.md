@@ -9,5 +9,5 @@ You need edit (add) this env:
 
 Usage: 
 ```
-docker run --rm -e LISTENPORT=80 -e MODE=tcp -e BACKENDS="192.168.1.10:1080 192.168.1.11:1080" --name haproxy -d oberthur/docker-haproxy
+docker run -e LISTENPORT=80 -e MODE=tcp -e BACKENDS="192.168.1.10:1080 192.168.1.11:1080" --name haproxy -d oberthur/docker-haproxy
 ```
