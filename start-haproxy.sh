@@ -10,11 +10,4 @@ sed -i -e "s/<--SERVERPORT-->/${SERVERPORT}/g" /etc/haproxy/haproxy.cfg
 
 echo "=> Starting Haproxy  ..."
 
-haproxy -db -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid
-
-
-
-
-
-
-
+exec haproxy -db -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid
