@@ -1,14 +1,12 @@
 FROM alpine:3.2
 
-MAINTAINER Lukasz Czarski <l.czarski@gmail.com>
-
-# Prepare image
-RUN apk add haproxy bash --update-cache 
+MAINTAINER Lukasz Czarski <l.czarski@oberthur.com>
 
 ADD haproxy.cfg /etc/haproxy/haproxy.cfg
-ADD entrypoint.sh /bin/entrypoint.sh
+ADD start-haproxy.sh /bin/start-haproxy.sh
 
-RUN chmod +x /bin/entrypoint.sh
-WORKDIR /etc/haproxy
-ENTRYPOINT ["/bin/entrypoint.sh"]
+# Prepare image
+RUN chmod +x /bin/start-haproxy.sh \
+    && apk add haproxy bash --update-cache 
 
+ENTRYPOINT ["/bin/start-haproxy.sh"]
