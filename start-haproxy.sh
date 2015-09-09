@@ -5,8 +5,16 @@ set -e
 echo "=> Configuring Haproxy"
 
 sed -i -e "s/<--LISTENPORT-->/${LISTENPORT}/g" /etc/haproxy/haproxy.cfg
-sed -i -e "s/<--SERVER-->/${SERVER}/g" /etc/haproxy/haproxy.cfg
-sed -i -e "s/<--SERVERPORT-->/${SERVERPORT}/g" /etc/haproxy/haproxy.cfg
+sed -i -e "s/<--MODE-->/${MODE}/g" /etc/haproxy/haproxy.cfg
+
+BACKENDS=($BACKENDS)
+COUNTER=0
+for BACKEND in "${BACKENDS[@]}"
+do
+    let COUNTER=COUNTER+1;
+    echo "    server backend_${COUNTER} ${BACKEND}" >> /etc/haproxy/haproxy.cfg
+done
+
 
 echo "=> Starting Haproxy  ..."
 
