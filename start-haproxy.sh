@@ -4,6 +4,8 @@ set -e
 
 echo "=> Configuring Haproxy"
 
+cp -v /etc/haproxy/haproxy.cfg.template /etc/haproxy/haproxy.cfg
+
 sed -i -e "s/<--LISTENPORT-->/${LISTENPORT}/g" /etc/haproxy/haproxy.cfg
 sed -i -e "s/<--MODE-->/${MODE}/g" /etc/haproxy/haproxy.cfg
 
