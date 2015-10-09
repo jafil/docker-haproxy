@@ -9,9 +9,8 @@ cp -v /etc/haproxy/haproxy.cfg.template /etc/haproxy/haproxy.cfg
 sed -i -e "s/<--LISTENPORT-->/${LISTENPORT}/g" /etc/haproxy/haproxy.cfg
 sed -i -e "s/<--MODE-->/${MODE}/g" /etc/haproxy/haproxy.cfg
 
-BACKENDS=($BACKENDS)
 COUNTER=0
-for BACKEND in "${BACKENDS[@]}"
+for BACKEND in $( env |grep BACKEND_ |sed 's/BACKEND_.*=//' )
 do
     let COUNTER=COUNTER+1;
     echo "    server backend_${COUNTER} ${BACKEND}" >> /etc/haproxy/haproxy.cfg
