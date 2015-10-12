@@ -1,6 +1,6 @@
 FROM alpine:3.2
 
-MAINTAINER Lukasz Czarski <l.czarski@oberthur.com>
+MAINTAINER Dawid Malinowski <d.malinowski@oberthur.com>
 
 ENV HAPROXY_VERSION=1.5.14-r0
 
