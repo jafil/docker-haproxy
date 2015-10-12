@@ -10,7 +10,7 @@ You need edit (add) this env:
 - **BACKEND_1_HEADERVALUE**: backend name should be also equals to header value
 - **BACKEND_1_ADDRESS**: backend address
 - **BACKEND_1_PORT**: backend port
-- **BACKEND_1_CERTIFICATE**: backend certificate file name (optional)
+- **BACKEND_1_CERTIFICATE**: backend certificate file name placed as volume in path /usr/local/etc/haproxy/certs/ (optional)
 - **LOGGING**: enabled if we want to enable rsyslog logging (optional)
 
 You also need to mount folder with client certificates to /usr/local/etc/haproxy/certs/
