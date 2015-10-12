@@ -16,7 +16,6 @@ do
     echo "    server backend_${COUNTER} ${BACKEND}" >> /etc/haproxy/haproxy.cfg
 done
 
-
-echo "=> Starting Haproxy  ..."
+(rsyslogd -n &)
 
 exec haproxy -db -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid
