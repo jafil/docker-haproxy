@@ -9,7 +9,14 @@ sed -i -e "s/<--MODE-->/${MODE}/g" /etc/haproxy/haproxy.cfg
 
 # check if we have server certificate
 if [ "${CERTIFICATE}" != "" ]; then
-    echo "    bind *:${LISTENPORT} ssl crt /usr/local/etc/haproxy/certs/${CERTIFICATE}" >> /etc/haproxy/haproxy.cfg
+
+    # check if we have server ca
+    if [ "${CA}" != "" ]; then
+        echo "    bind *:${LISTENPORT} ssl crt /usr/local/etc/haproxy/certs/${CERTIFICATE} /usr/local/etc/haproxy/certs/${CA} verify ${VERIFY}" >> /etc/haproxy/haproxy.cfg
+    else
+        echo "    bind *:${LISTENPORT} ssl crt /usr/local/etc/haproxy/certs/${CERTIFICATE}" >> /etc/haproxy/haproxy.cfg
+    fi
+
 else
     echo "    bind *:${LISTENPORT}" >> /etc/haproxy/haproxy.cfg
 fi

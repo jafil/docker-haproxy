@@ -7,6 +7,9 @@ You need edit (add) this env:
 - **CERTIFICATE**: server certificate file name placed as volume in path /usr/local/etc/haproxy/certs/ (optional)
 - **DEFAULT**: define default backend
 
+- **CA**: server trusted ca file name placed as volume in path /usr/local/etc/haproxy/certs/ (optional)
+- **VERIFY**: if you enabled CA you should provide verify option ```optional``` or ```required```
+
 - **HEADERNAME**: header name used to find proper backend ```hdr_dom(${HEADERNAME}) -i ${BACKEND}```
 - **BACKEND_1_HEADERVALUE**: backend name should be also equals to header value
 - **BACKEND_1_ADDRESS**: backend address
