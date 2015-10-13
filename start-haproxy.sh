@@ -5,8 +5,14 @@ set -e
 echo "=> Configuring Haproxy"
 
 cp -v /etc/haproxy/haproxy.cfg.template /etc/haproxy/haproxy.cfg
-sed -i -e "s/<--LISTENPORT-->/${LISTENPORT}/g" /etc/haproxy/haproxy.cfg
 sed -i -e "s/<--MODE-->/${MODE}/g" /etc/haproxy/haproxy.cfg
+
+# check if we have server certificate
+if [ "${CERTIFICATE}" != "" ]; then
+    echo "    bind *:${LISTENPORT} ssl crt /usr/local/etc/haproxy/certs/${CERTIFICATE}" >> /etc/haproxy/haproxy.cfg
+else
+    echo "    bind *:${LISTENPORT}" >> /etc/haproxy/haproxy.cfg
+fi
 
 # check if we have default backend
 if [ "${DEFAULT}" != "" ]; then

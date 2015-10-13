@@ -1,16 +1,17 @@
-# docker-haproxy-mutual-auth
+# docker-haproxy
 Basic Docker image to run haproxy as client to connect the server with mutual auth
 
 You need edit (add) this env:
 - **LISTENPORT**: 80 or other port value
 - **MODE**: mode tcp or http
+- **CERTIFICATE**: server certificate file name placed as volume in path /usr/local/etc/haproxy/certs/ (optional)
 - **DEFAULT**: define default backend
 
 - **HEADERNAME**: header name used to find proper backend ```hdr_dom(${HEADERNAME}) -i ${BACKEND}```
 - **BACKEND_1_HEADERVALUE**: backend name should be also equals to header value
 - **BACKEND_1_ADDRESS**: backend address
 - **BACKEND_1_PORT**: backend port
-- **BACKEND_1_CERTIFICATE**: backend certificate file name placed as volume in path /usr/local/etc/haproxy/certs/ (optional)
+- **BACKEND_1_CERTIFICATE**: backend client certificate file name placed as volume in path /usr/local/etc/haproxy/certs/ (optional)
 - **LOGGING**: enabled if we want to enable rsyslog logging (optional)
 
 You also need to mount folder with client certificates to /usr/local/etc/haproxy/certs/
