@@ -51,6 +51,9 @@ do
       *CERTIFICATE*)
         CERTIFICATE=$( echo $ELEMENT |sed 's/BACKEND_.*=//' )
         ;;
+      *REQIREP*)
+        REQIREP=$( echo $ELEMENT |sed 's/BACKEND_.*=//' )
+        ;;
     esac
   done
 
@@ -61,7 +64,16 @@ do
   else
       PARAMS="verify none"
   fi
-  echo "    server ${BACKEND} ${ADDRESS}:${PORT} ${PARAMS}" >> /etc/haproxy/haproxy.cfg
+
+  if [ "$( env |grep RESOLVER_ )" != ""]; then
+      DNS="resolvers docker resolve-prefer ipv4"
+  fi
+
+  echo "    server ${BACKEND} ${ADDRESS}:${PORT} ${PARAMS} ${DNS}" >> /etc/haproxy/haproxy.cfg
+
+  if [ "${REQIREP}" != "" ]; then
+      echo "    ${REQIREP}" >> /etc/haproxy/haproxy.cfg
+  fi
 
 done
 
