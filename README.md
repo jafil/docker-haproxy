@@ -21,5 +21,5 @@ You also need to mount folder with client certificates to /usr/local/etc/haproxy
 
 Usage: 
 ```
-docker run --name client-way-ssl -d -v /path/to/certs/:/usr/local/etc/haproxy/certs/ -e LISTENPORT=80 -e HEADERNAME=X-SERVER_ID -e BACKEND_1_HEADERVALUE=server -e BACKEND_1_ADDRESS=my-server.com -e BACKEND_1_PORT=443 -e BACKEND_1_CERTIFICATE=my-server.crt oberthur/docker-haproxy-mutual-auth
+docker run --name client-way-ssl -d -v /path/to/certs/:/usr/local/etc/haproxy/certs/ -e LISTENPORT=80 -e HEADERNAME=X-SERVER_ID -e BACKEND_1_HEADERVALUE=server -e BACKEND_1_ADDRESS=my-server.com -e BACKEND_1_PORT=443 -e BACKEND_1_CERTIFICATE=my-server.crt oberthur/docker-haproxy
 ```
