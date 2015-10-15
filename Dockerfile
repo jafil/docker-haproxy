@@ -10,7 +10,7 @@ ADD haproxy.rsyslog /etc/rsyslog.conf
 
 # Prepare image
 RUN chmod +x /bin/start-haproxy.sh \
-    && apk add haproxy=${HAPROXY_VERSION} rsyslog --update-cache \
+    && apk add haproxy=${HAPROXY_VERSION} bash rsyslog --update-cache \
     && rm -rf /var/cache/apk/* \
     && ln -sf /dev/stdout /var/log/haproxy.log
 
