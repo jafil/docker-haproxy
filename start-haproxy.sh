@@ -65,7 +65,7 @@ do
       PARAMS="verify none"
   fi
 
-  if [ "$( env |grep RESOLVER_ )" != ""]; then
+  if [ "$( env |grep RESOLVER_ | wc -l )" != "0" ]; then
       DNS="resolvers docker resolve-prefer ipv4"
   fi
 
@@ -77,18 +77,18 @@ do
 
 done
 
-if [ "$( env |grep RESOLVER_ )" != ""]; then
+if [ "$( env |grep RESOLVER_ | wc -l )" != "0" ]; then
 
     echo "" >> /etc/haproxy/haproxy.cfg
     echo "resolvers docker" >> /etc/haproxy/haproxy.cfg
 
          for RESOLVER in $( env |grep RESOLVER_ |sort |awk 'match($0, /RESOLVER_[0-9]+/) { print substr( $0, RSTART, RLENGTH )}' |uniq )
          do
-              for ELEMENT in $( env |grep ${BACKEND} |sort )
+              for ELEMENT in $( env |grep ${RESOLVER} |sort )
               do
                 case "$ELEMENT" in
                   *VALUE*)
-                    VALUE=$( echo $ELEMENT |sed 's/BACKEND_.*=//' )
+                    VALUE=$( echo $ELEMENT |sed 's/RESOLVER_.*=//' )
                     ;;
                 esac
               done
