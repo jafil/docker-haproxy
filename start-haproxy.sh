@@ -102,12 +102,12 @@ if [ "$( env |grep RESOLVER_ | wc -l )" != "0" ]; then
 fi
 
 # should we enable logging
-if [ "$LOGGING" == "enabled" ]; then
+if [ "${LOGGING}" == "enabled" ]; then
     (rsyslogd -n &)
 fi
 
 # should we pring config
-if [ "PRINT_CONFIG" == "enabled" ]; then
+if [ "${PRINT_CONFIG}" == "enabled" ]; then
     cat /etc/haproxy/haproxy.cfg
 fi
 
