@@ -27,7 +27,8 @@ else
     # generate acl rules
      for BACKEND in $( env |grep BACKEND_ |sort |awk 'match($0, /BACKEND_[0-9]+/) { print substr( $0, RSTART, RLENGTH )}' |uniq )
      do
-        echo "    acl is_${BACKEND} hdr_dom(${HEADERNAME}) -i ${BACKEND}" >> /etc/haproxy/haproxy.cfg
+        ACL=$( env |grep BACKEND_1 |grep ACL |sed 's/BACKEND_.*=//' )
+        echo "    acl is_${BACKEND} ${ACL}" >> /etc/haproxy/haproxy.cfg
         echo "    use_backend ${BACKEND} if is_${BACKEND}" >> /etc/haproxy/haproxy.cfg
         echo "" >> /etc/haproxy/haproxy.cfg
     done
@@ -39,9 +40,6 @@ do
   for ELEMENT in $( env |grep ${BACKEND} |sort )
   do
     case "$ELEMENT" in
-      *HEADERVALUE*)
-        HEADERVALUE=$( echo $ELEMENT |sed 's/BACKEND_.*=//' )
-        ;;
       *ADDRESS*)
         ADDRESS=$( echo $ELEMENT |sed 's/BACKEND_.*=//' )
         ;;
