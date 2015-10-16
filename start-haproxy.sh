@@ -38,7 +38,7 @@ fi
 for BACKEND in $( env |grep BACKEND_ |sort |awk 'match($0, /BACKEND_[0-9]+/) { print substr( $0, RSTART, RLENGTH )}' |uniq )
 do
   echo "backend ${BACKEND}" >> /etc/haproxy/haproxy.cfg
-  unset ADDRESS PORT CERTIFICATE REQIREP
+  unset ADDRESS PORT CERTIFICATE REQREP
   for ELEMENT in $( env |grep ${BACKEND} |sort )
   do
     case "$ELEMENT" in
