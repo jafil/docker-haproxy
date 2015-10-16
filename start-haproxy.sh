@@ -68,14 +68,11 @@ do
 
   echo "    server ${BACKEND} ${ADDRESS}:${PORT} ${PARAMS} ${DNS}" >> /etc/haproxy/haproxy.cfg
 
-     # generate reqrep rules
-     for BACKEND in $( env |grep BACKEND_ |sort |awk 'match($0, /BACKEND_[0-9]+/) { print substr( $0, RSTART, RLENGTH )}' |uniq )
-     do
-        REQREP=$( env |grep ${BACKEND} |grep REQREP |sed 's/BACKEND_.*=//' )
-        if [ "${REQREP}" != "" ]; then
-            echo "    ${REQREP}" >> /etc/haproxy/haproxy.cfg
-        fi
-     done
+  # generate reqrep rules
+  REQREP=$( env |grep ${BACKEND} |grep REQREP |sed 's/BACKEND_.*=//' )
+  if [ "${REQREP}" != "" ]; then
+     echo "    ${REQREP}" >> /etc/haproxy/haproxy.cfg
+  fi
 
 done
 
