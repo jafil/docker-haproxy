@@ -32,13 +32,13 @@ else
         echo "    acl is_${BACKEND} ${ACL}" >> /etc/haproxy/haproxy.cfg
         echo "    use_backend ${BACKEND} if is_${BACKEND}" >> /etc/haproxy/haproxy.cfg
         echo "" >> /etc/haproxy/haproxy.cfg
-    done
+     done
 fi
 
 for BACKEND in $( env |grep BACKEND_ |sort |awk 'match($0, /BACKEND_[0-9]+/) { print substr( $0, RSTART, RLENGTH )}' |uniq )
 do
   echo "backend ${BACKEND}" >> /etc/haproxy/haproxy.cfg
-  unset ADDRESS PORT CERTIFICATE REQREP
+  unset ADDRESS PORT CERTIFICATE
   for ELEMENT in $( env |grep ${BACKEND} |sort )
   do
     case "$ELEMENT" in
@@ -50,9 +50,6 @@ do
         ;;
       *CERTIFICATE*)
         CERTIFICATE=$( echo $ELEMENT |sed 's/BACKEND_.*=//' )
-        ;;
-      *REQREP*)
-        REQREP=$( echo $ELEMENT |sed 's/BACKEND_.*=//' )
         ;;
     esac
   done
@@ -71,9 +68,14 @@ do
 
   echo "    server ${BACKEND} ${ADDRESS}:${PORT} ${PARAMS} ${DNS}" >> /etc/haproxy/haproxy.cfg
 
-  if [ "${REQREP}" != "" ]; then
-      echo "    ${REQREP}" >> /etc/haproxy/haproxy.cfg
-  fi
+     # generate reqrep rules
+     for BACKEND in $( env |grep BACKEND_ |sort |awk 'match($0, /BACKEND_[0-9]+/) { print substr( $0, RSTART, RLENGTH )}' |uniq )
+     do
+        REQREP=$( env |grep ${BACKEND} |grep REQREP |sed 's/BACKEND_.*=//' )
+        if [ "${REQREP}" != "" ]; then
+            echo "    ${REQREP}" >> /etc/haproxy/haproxy.cfg
+        fi
+     done
 
 done
 
