@@ -51,8 +51,8 @@ do
       *CERTIFICATE*)
         CERTIFICATE=$( echo $ELEMENT |sed 's/BACKEND_.*=//' )
         ;;
-      *REQIREP*)
-        REQIREP=$( echo $ELEMENT |sed 's/BACKEND_.*=//' )
+      *REQREP*)
+        REQREP=$( echo $ELEMENT |sed 's/BACKEND_.*=//' )
         ;;
     esac
   done
@@ -71,8 +71,8 @@ do
 
   echo "    server ${BACKEND} ${ADDRESS}:${PORT} ${PARAMS} ${DNS}" >> /etc/haproxy/haproxy.cfg
 
-  if [ "${REQIREP}" != "" ]; then
-      echo "    ${REQIREP}" >> /etc/haproxy/haproxy.cfg
+  if [ "${REQREP}" != "" ]; then
+      echo "    ${REQREP}" >> /etc/haproxy/haproxy.cfg
   fi
 
 done
