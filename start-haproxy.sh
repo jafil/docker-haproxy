@@ -29,16 +29,16 @@ if [ "${DEFAULT}" != "" ]; then
     echo ""
     echo "    default_backend ${DEFAULT}" >> /etc/haproxy/haproxy.cfg
     echo "" >> /etc/haproxy/haproxy.cfg
-else
-    # generate acl rules
-     for BACKEND in $( env |grep BACKEND_ |sort |awk 'match($0, /BACKEND_[0-9]+/) { print substr( $0, RSTART, RLENGTH )}' |uniq )
-     do
-        ACL=$( env |grep ${BACKEND} |grep ACL |sed 's/BACKEND_.*=//' )
-        echo "    acl is_${BACKEND} ${ACL}" >> /etc/haproxy/haproxy.cfg
-        echo "    use_backend ${BACKEND} if is_${BACKEND}" >> /etc/haproxy/haproxy.cfg
-        echo "" >> /etc/haproxy/haproxy.cfg
-     done
 fi
+
+# generate acl rules
+for BACKEND in $( env |grep BACKEND_ |sort |awk 'match($0, /BACKEND_[0-9]+/) { print substr( $0, RSTART, RLENGTH )}' |uniq )
+do
+    ACL=$( env |grep ${BACKEND} |grep ACL |sed 's/BACKEND_.*=//' )
+    echo "    acl is_${BACKEND} ${ACL}" >> /etc/haproxy/haproxy.cfg
+    echo "    use_backend ${BACKEND} if is_${BACKEND}" >> /etc/haproxy/haproxy.cfg
+    echo "" >> /etc/haproxy/haproxy.cfg
+done
 
 for BACKEND in $( env |grep BACKEND_ |sort |awk 'match($0, /BACKEND_[0-9]+/) { print substr( $0, RSTART, RLENGTH )}' |uniq )
 do
