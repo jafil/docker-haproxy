@@ -19,6 +19,11 @@ else
     echo "    bind *:${LISTENPORT}" >> /etc/haproxy/haproxy.cfg
 fi
 
+# remove headers that expose security-sensitive information
+echo "     rspidel ^Server:.*$" >> /etc/haproxy/haproxy.cfg
+echo "     rspidel ^X-Powered-By:.*$" >> /etc/haproxy/haproxy.cfg
+echo "     rspidel ^X-AspNet-Version:.*$" >> /etc/haproxy/haproxy.cfg
+
 # check if we have default backend
 if [ "${DEFAULT}" != "" ]; then
     echo ""
