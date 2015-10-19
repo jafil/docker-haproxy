@@ -57,9 +57,9 @@ do
   # check if cert was provided
   CERT_PATH="/usr/local/etc/haproxy/certs/${CERTIFICATE}"
   if [ "$CERTIFICATE" != "" ]; then
-      PARAMS="ssl crt ${CERT_PATH} verify none"
+      PARAMS="check ssl crt ${CERT_PATH} verify none"
   else
-      PARAMS="verify none"
+      PARAMS="check"
   fi
 
   if [ "$( env |grep RESOLVER_ | wc -l )" != "0" ]; then
