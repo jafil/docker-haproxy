@@ -35,9 +35,12 @@ fi
 for BACKEND in $( env |grep BACKEND_ |sort |awk 'match($0, /BACKEND_[0-9]+/) { print substr( $0, RSTART, RLENGTH )}' |uniq )
 do
     ACL=$( env |grep ${BACKEND} |grep ACL |sed 's/BACKEND_.*=//' )
-    echo "    acl is_${BACKEND} ${ACL}" >> /etc/haproxy/haproxy.cfg
-    echo "    use_backend ${BACKEND} if is_${BACKEND}" >> /etc/haproxy/haproxy.cfg
-    echo "" >> /etc/haproxy/haproxy.cfg
+
+    if [ "${ACL}" != "" ]; then
+        echo "    acl is_${BACKEND} ${ACL}" >> /etc/haproxy/haproxy.cfg
+        echo "    use_backend ${BACKEND} if is_${BACKEND}" >> /etc/haproxy/haproxy.cfg
+        echo "" >> /etc/haproxy/haproxy.cfg
+    fi
 done
 
 for BACKEND in $( env |grep BACKEND_ |sort |awk 'match($0, /BACKEND_[0-9]+/) { print substr( $0, RSTART, RLENGTH )}' |uniq )
