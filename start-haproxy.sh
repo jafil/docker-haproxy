@@ -20,9 +20,11 @@ else
 fi
 
 # remove headers that expose security-sensitive information
-echo "    rspidel ^Server:.*$" >> /etc/haproxy/haproxy.cfg
-echo "    rspidel ^X-Powered-By:.*$" >> /etc/haproxy/haproxy.cfg
-echo "    rspidel ^X-AspNet-Version:.*$" >> /etc/haproxy/haproxy.cfg
+if [ "${MODE}" == "http" ]; then
+    echo "    rspidel ^Server:.*$" >> /etc/haproxy/haproxy.cfg
+    echo "    rspidel ^X-Powered-By:.*$" >> /etc/haproxy/haproxy.cfg
+    echo "    rspidel ^X-AspNet-Version:.*$" >> /etc/haproxy/haproxy.cfg
+fi
 
 # check if we have default backend
 if [ "${DEFAULT}" != "" ]; then
