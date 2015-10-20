@@ -7,7 +7,6 @@ fi
 
 # should we pring config
 if [ "${PRINT_CONFIG}" == "enabled" ]; then
-    env |grep BACKEND_
     cat /etc/haproxy/haproxy.cfg
 fi
 
