@@ -48,7 +48,7 @@ done
 for BACKEND in $( env |grep BACKEND_ |sort |awk 'match($0, /BACKEND_[0-9]+/) { print substr( $0, RSTART, RLENGTH )}' |uniq )
 do
   echo "backend ${BACKEND}" >> /etc/haproxy/haproxy.cfg
-  unset ADDRESS PORT CERTIFICATE OVERRIDE_HOST
+  unset ADDRESS PORT CERTIFICATE OVERRIDE_HOST SSL
   for ELEMENT in $( env |grep ${BACKEND} |sort )
   do
     case "$ELEMENT" in
@@ -64,15 +64,20 @@ do
       *OVERRIDE_HOST*)
         OVERRIDE_HOST=$( echo $ELEMENT |sed 's/BACKEND_.*=//' )
         ;;
+      *SSL*)
+        SSL=$( echo $ELEMENT |sed 's/BACKEND_.*=//' )
+        ;;
     esac
   done
 
   # check if cert was provided
   CERT_PATH="/usr/local/etc/haproxy/certs/${CERTIFICATE}"
   if [ "$CERTIFICATE" != "" ]; then
-      PARAMS="check ssl crt ${CERT_PATH} verify none"
-  else
-      PARAMS="check"
+      CERT="crt ${CERT_PATH}"
+  fi
+
+  if [ "${SSL}" != "" ] || [ "$CERTIFICATE" != "" ]; then
+      PARAMS="ssl verify none"
   fi
 
   if [ "$( env |grep RESOLVER_ | wc -l )" != "0" ]; then
@@ -90,7 +95,7 @@ do
      echo "    ${REQREP}" >> /etc/haproxy/haproxy.cfg
   fi
 
-  echo "    server ${BACKEND} ${ADDRESS}:${PORT} ${PARAMS} ${DNS}" >> /etc/haproxy/haproxy.cfg
+  echo "    server ${BACKEND} ${ADDRESS}:${PORT} check ${PARAMS} ${CERT} ${DNS}" >> /etc/haproxy/haproxy.cfg
 
 done
 
@@ -125,7 +130,7 @@ fi
 
 # should we pring config
 if [ "${PRINT_CONFIG}" == "enabled" ]; then
-    env |grep BACKEND_
+    env | grep BACKEND_ | sort
     cat /etc/haproxy/haproxy.cfg
 fi
 
