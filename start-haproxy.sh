@@ -61,6 +61,9 @@ do
       *CERTIFICATE*)
         CERTIFICATE=$( echo $ELEMENT |sed 's/BACKEND_.*=//' )
         ;;
+      *OVERRIDE_HOST*)
+        OVERRIDE_HOST=$( echo $ELEMENT |sed 's/BACKEND_.*=//' )
+        ;;
     esac
   done
 
@@ -74,6 +77,11 @@ do
 
   if [ "$( env |grep RESOLVER_ | wc -l )" != "0" ]; then
       DNS="resolvers docker resolve-prefer ipv4"
+  fi
+
+  # override host header
+  if [ "${OVERRIDE_HOST}" != "" ]; then
+     echo "    reqirep ^Host: Host:\ ${OVERRIDE_HOST}" >> /etc/haproxy/haproxy.cfg
   fi
 
   # generate reqrep rules
