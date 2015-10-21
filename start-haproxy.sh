@@ -76,13 +76,13 @@ do
       DNS="resolvers docker resolve-prefer ipv4"
   fi
 
-  echo "    server ${BACKEND} ${ADDRESS}:${PORT} ${PARAMS} ${DNS}" >> /etc/haproxy/haproxy.cfg
-
   # generate reqrep rules
   REQREP=$( env |grep ${BACKEND} |grep REQREP |sed 's/BACKEND_.*=//' )
   if [ "${REQREP}" != "" ]; then
      echo "    ${REQREP}" >> /etc/haproxy/haproxy.cfg
   fi
+
+  echo "    server ${BACKEND} ${ADDRESS}:${PORT} ${PARAMS} ${DNS}" >> /etc/haproxy/haproxy.cfg
 
 done
 
