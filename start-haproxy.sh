@@ -75,10 +75,14 @@ do
   CERT_PATH="/usr/local/etc/haproxy/certs/${CERTIFICATE}"
   if [ "$CERTIFICATE" != "" ]; then
       CERT="crt ${CERT_PATH}"
+  else
+      unset CERT CERTIFICATE
   fi
 
   if [ "${SSL}" != "" ] || [ "$CERTIFICATE" != "" ]; then
       PARAMS="ssl verify none"
+  else
+      unset PARAMS
   fi
 
   if [ "$( env |grep RESOLVER_ | wc -l )" != "0" ]; then
@@ -91,7 +95,15 @@ do
   fi
 
   # generate reqrep rules
-  REQREP=$( env |grep ${BACKEND} |grep REQREP |sed 's/BACKEND_.*=//' )
+  REQREP=$( env |grep ${BACKEND} |grep REQREP_1 grep -v REQREP_ |sed 's/BACKEND_.*=//' )
+  if [ "${REQREP}" != "" ]; then
+     echo "    ${REQREP}" >> /etc/haproxy/haproxy.cfg
+  fi
+  REQREP=$( env |grep ${BACKEND} |grep REQREP_2 |sed 's/BACKEND_.*=//' )
+  if [ "${REQREP}" != "" ]; then
+     echo "    ${REQREP}" >> /etc/haproxy/haproxy.cfg
+  fi
+  REQREP=$( env |grep ${BACKEND} |grep REQREP_3 |sed 's/BACKEND_.*=//' )
   if [ "${REQREP}" != "" ]; then
      echo "    ${REQREP}" >> /etc/haproxy/haproxy.cfg
   fi
