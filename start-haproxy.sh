@@ -95,17 +95,17 @@ do
   fi
 
   # generate reqrep rules
-  REQREP=$( env |grep ${BACKEND} |grep REQREP_1 grep -v REQREP_ |sed 's/BACKEND_.*=//' )
-  if [ "${REQREP}" != "" ]; then
-     echo "    ${REQREP}" >> /etc/haproxy/haproxy.cfg
+  REQREP1=$( env |grep ${BACKEND} |grep REQREP_1 |sed 's/BACKEND_.*=//' )
+  if [ "${REQREP1}" != "" ]; then
+     echo "    ${REQREP1}" >> /etc/haproxy/haproxy.cfg
   fi
-  REQREP=$( env |grep ${BACKEND} |grep REQREP_2 |sed 's/BACKEND_.*=//' )
-  if [ "${REQREP}" != "" ]; then
-     echo "    ${REQREP}" >> /etc/haproxy/haproxy.cfg
+  REQREP2=$( env |grep ${BACKEND} |grep REQREP_2 |sed 's/BACKEND_.*=//' )
+  if [ "${REQREP2}" != "" ]; then
+     echo "    ${REQREP2}" >> /etc/haproxy/haproxy.cfg
   fi
-  REQREP=$( env |grep ${BACKEND} |grep REQREP_3 |sed 's/BACKEND_.*=//' )
-  if [ "${REQREP}" != "" ]; then
-     echo "    ${REQREP}" >> /etc/haproxy/haproxy.cfg
+  REQREP3=$( env |grep ${BACKEND} |grep REQREP_3 |sed 's/BACKEND_.*=//' )
+  if [ "${REQREP3}" != "" ]; then
+     echo "    ${REQREP3}" >> /etc/haproxy/haproxy.cfg
   fi
 
   echo "    server ${BACKEND} ${ADDRESS}:${PORT} check ${PARAMS} ${CERT} ${DNS}" >> /etc/haproxy/haproxy.cfg
