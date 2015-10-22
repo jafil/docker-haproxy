@@ -31,6 +31,7 @@ if [ "${DEFAULT}" != "" ]; then
     echo ""
     echo "    default_backend ${DEFAULT}" >> /etc/haproxy/haproxy.cfg
     echo "" >> /etc/haproxy/haproxy.cfg
+    unset DEFAULT
 fi
 
 # generate acl rules
