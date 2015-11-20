@@ -6,6 +6,7 @@ You need edit (add) this env:
 - **MODE**: mode tcp or http
 - **CERTIFICATE**: server certificate file name placed as volume in path /usr/local/etc/haproxy/certs/ (optional)
 - **DEFAULT**: define default backend
+- **RETRIES**: define number of retries to perform on a server after a connection failure (optional - default 10)
 
 - **CA**: server trusted ca file name placed as volume in path /usr/local/etc/haproxy/certs/ (optional)
 - **VERIFY**: if you enabled CA you should provide verify option ```optional``` or ```required```

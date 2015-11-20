@@ -6,6 +6,7 @@ echo "=> Configuring Haproxy"
 
 cp -v /etc/haproxy/haproxy.cfg.template /etc/haproxy/haproxy.cfg
 sed -i -e "s/<--MODE-->/${MODE}/g" /etc/haproxy/haproxy.cfg
+sed -i -e "s/<--RETRIES-->/${RETRIES:-10}/g" /etc/haproxy/haproxy.cfg
 
 # check if we have server certificate
 if [ "${CERTIFICATE}" != "" ]; then
