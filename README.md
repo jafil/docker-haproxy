@@ -7,6 +7,7 @@ You need edit (add) this env:
 - **CERTIFICATE**: server certificate file name placed as volume in path /usr/local/etc/haproxy/certs/ (optional)
 - **DEFAULT**: define default backend
 - **RETRIES**: define number of retries to perform on a server after a connection failure (optional - default 10)
+- **LOGFORMAT**: define custom log format, ex `"%Ci [%t] %b %hr %r %ST %B %Tr"` (optional)
 
 - **CA**: server trusted ca file name placed as volume in path /usr/local/etc/haproxy/certs/ (optional)
 - **VERIFY**: if you enabled CA you should provide verify option ```optional``` or ```required```

@@ -6,7 +6,7 @@ echo "=> Configuring Haproxy"
 
 cp -v /etc/haproxy/haproxy.cfg.template /etc/haproxy/haproxy.cfg
 sed -i -e "s/<--MODE-->/${MODE}/g" /etc/haproxy/haproxy.cfg
-sed -i -e "s/<--RETRIES-->/${RETRIES:-10}/g" /etc/haproxy/haproxy.cfg
+sed -i -e "s/<--RETRIES-->/${RETRIES:-3}/g" /etc/haproxy/haproxy.cfg
 
 # check if we have server certificate
 if [ "${CERTIFICATE}" != "" ]; then
@@ -22,9 +22,19 @@ fi
 
 # remove headers that expose security-sensitive information
 if [ "${MODE}" == "http" ]; then
+    echo "    # remove backend headers" >> /etc/haproxy/haproxy.cfg
     echo "    rspidel ^Server:.*$" >> /etc/haproxy/haproxy.cfg
     echo "    rspidel ^X-Powered-By:.*$" >> /etc/haproxy/haproxy.cfg
     echo "    rspidel ^X-AspNet-Version:.*$" >> /etc/haproxy/haproxy.cfg
+    echo "" >> /etc/haproxy/haproxy.cfg
+fi
+
+# add custom log format
+if [ "${LOGFORMAT}" != "" ]; then
+    echo "    # add custom log format" >> /etc/haproxy/haproxy.cfg
+    echo "    log-format ${LOGFORMAT}" >> /etc/haproxy/haproxy.cfg
+    echo "" >> /etc/haproxy/haproxy.cfg
+    unset DEFAULT
 fi
 
 # check if we have default backend
@@ -90,6 +100,19 @@ do
       DNS="resolvers docker resolve-prefer ipv4"
   fi
 
+  # health checking
+  if [ "${MODE}" == "tcp" ]; then
+      echo "    option tcp-check" >> /etc/haproxy/haproxy.cfg
+  elif [ "${SSL}" == "true" ] || [ "$CERTIFICATE" != "" ]; then
+      echo "    option ssl-hello-chk" >> /etc/haproxy/haproxy.cfg
+  else
+      echo "    option httpchk" >> /etc/haproxy/haproxy.cfg
+  fi
+
+  echo "    option log-health-checks" >> /etc/haproxy/haproxy.cfg
+  echo "    # test each 3 secs - down after 3 fails, up after 2 checks" >> /etc/haproxy/haproxy.cfg
+  echo "    default-server inter 3s fall 3 rise 2" >> /etc/haproxy/haproxy.cfg
+
   # generate reqrep rules
   REQREP1=$( env |grep ${BACKEND} |grep REQREP_1 |sed 's/^[^=]*=//' )
   if [ "${REQREP1}" != "" ]; then
@@ -116,7 +139,6 @@ done
 
 if [ "$( env |grep RESOLVER_ | wc -l )" != "0" ]; then
 
-    echo "" >> /etc/haproxy/haproxy.cfg
     echo "resolvers docker" >> /etc/haproxy/haproxy.cfg
 
          for RESOLVER in $( env |grep RESOLVER_ |sort |awk 'match($0, /RESOLVER_[0-9]+/) { print substr( $0, RSTART, RLENGTH )}' |uniq )
@@ -135,6 +157,7 @@ if [ "$( env |grep RESOLVER_ | wc -l )" != "0" ]; then
     echo "    resolve_retries       3" >> /etc/haproxy/haproxy.cfg
     echo "    timeout retry         1s" >> /etc/haproxy/haproxy.cfg
     echo "    hold valid           10s" >> /etc/haproxy/haproxy.cfg
+    echo "" >> /etc/haproxy/haproxy.cfg
 
 fi
 
