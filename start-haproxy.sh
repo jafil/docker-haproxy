@@ -34,7 +34,7 @@ if [ "${LOGFORMAT}" != "" ]; then
     echo "    # add custom log format" >> /etc/haproxy/haproxy.cfg
     echo "    log-format \"${LOGFORMAT}\"" >> /etc/haproxy/haproxy.cfg
     echo "" >> /etc/haproxy/haproxy.cfg
-    unset DEFAULT
+    unset LOGFORMAT
 fi
 
 # check if we have default backend
