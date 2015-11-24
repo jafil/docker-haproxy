@@ -100,16 +100,16 @@ do
       DNS="resolvers docker resolve-prefer ipv4"
   fi
 
-  # health checking
-  if [ "${MODE}" == "tcp" ]; then
-      echo "    option tcp-check" >> /etc/haproxy/haproxy.cfg
-  elif [ "${SSL}" == "true" ] || [ "$CERTIFICATE" != "" ]; then
-      echo "    option ssl-hello-chk" >> /etc/haproxy/haproxy.cfg
-  else
-      echo "    option httpchk" >> /etc/haproxy/haproxy.cfg
-  fi
-  echo "    # test each 3 secs - down after 3 fails, up after 2 checks" >> /etc/haproxy/haproxy.cfg
-  echo "    default-server inter 3s fall 3 rise 2" >> /etc/haproxy/haproxy.cfg
+#  # health checking
+#  if [ "${MODE}" == "tcp" ]; then
+#      echo "    option tcp-check" >> /etc/haproxy/haproxy.cfg
+#  elif [ "${SSL}" == "true" ] || [ "$CERTIFICATE" != "" ]; then
+#      echo "    option ssl-hello-chk" >> /etc/haproxy/haproxy.cfg
+#  else
+#      echo "    option httpchk" >> /etc/haproxy/haproxy.cfg
+#  fi
+#  echo "    # test each 3 secs - down after 3 fails, up after 2 checks" >> /etc/haproxy/haproxy.cfg
+#  echo "    default-server inter 3s fall 3 rise 2" >> /etc/haproxy/haproxy.cfg
 
   # generate reqrep rules
   REQREP1=$( env |grep ${BACKEND} |grep REQREP_1 |sed 's/^[^=]*=//' )
