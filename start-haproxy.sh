@@ -32,7 +32,7 @@ fi
 # add custom log format
 if [ "${LOGFORMAT}" != "" ]; then
     echo "    # add custom log format" >> /etc/haproxy/haproxy.cfg
-    echo "    log-format ${LOGFORMAT}" >> /etc/haproxy/haproxy.cfg
+    echo "    log-format \"${LOGFORMAT}\"" >> /etc/haproxy/haproxy.cfg
     echo "" >> /etc/haproxy/haproxy.cfg
     unset DEFAULT
 fi
