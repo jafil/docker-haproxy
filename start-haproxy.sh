@@ -108,8 +108,6 @@ do
   else
       echo "    option httpchk" >> /etc/haproxy/haproxy.cfg
   fi
-
-  echo "    option log-health-checks" >> /etc/haproxy/haproxy.cfg
   echo "    # test each 3 secs - down after 3 fails, up after 2 checks" >> /etc/haproxy/haproxy.cfg
   echo "    default-server inter 3s fall 3 rise 2" >> /etc/haproxy/haproxy.cfg
 
