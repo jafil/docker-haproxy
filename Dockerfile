@@ -5,8 +5,7 @@ MAINTAINER Dawid Malinowski <d.malinowski@oberthur.com>
 ENV HAPROXY_VERSION=1.6.3
 
 ADD haproxy.cfg /etc/haproxy/haproxy.cfg.template
-ADD start-haproxy.sh /bin/start-haproxy.sh
-ADD start-simple.sh /bin/start-simple.sh
+ADD start-*.sh /bin/
 
 # Prepare image
 RUN chmod +x /bin/start-*.sh \
@@ -15,7 +14,7 @@ RUN chmod +x /bin/start-*.sh \
     && apt-get install rsyslog haproxy=${HAPROXY_VERSION}* \
     && apt-get clean autoclean \
     && apt-get autoremove --yes \
-    && rm -rf /var/lib/{apt,dpkg,cache,log}/
+    && rm -rf /var/lib/{apt,dpkg,cache,log}/ \
     && ln -sf /dev/stdout /var/log/haproxy.log
 
 ADD haproxy.rsyslog /etc/rsyslog.conf
