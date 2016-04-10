@@ -2,7 +2,7 @@ FROM oberthur/docker-ubuntu:14.04.4
 
 MAINTAINER Dawid Malinowski <d.malinowski@oberthur.com>
 
-ENV HAPROXY_VERSION=1.6.3
+ENV HAPROXY_VERSION=1.6.4
 
 ADD haproxy.cfg /etc/haproxy/haproxy.cfg.template
 ADD start-*.sh /bin/
