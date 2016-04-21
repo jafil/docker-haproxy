@@ -8,6 +8,7 @@ You need edit (add) this env:
 - **DEFAULT**: define default backend
 - **RETRIES**: define number of retries to perform on a server after a connection failure (optional - default 3)
 - **LOGFORMAT**: define custom log format, ex `"%Ci [%t] %b %hr %r %ST %B %Tr"` (optional)
+- **START_MODE**: define start mode, ex `simple` or `haproxy` or `multiconfig`
 
 - **CA**: server trusted ca file name placed as volume in path /usr/local/etc/haproxy/certs/ (optional)
 - **VERIFY**: if you enabled CA you should provide verify option ```optional``` or ```required```
@@ -20,8 +21,13 @@ You need edit (add) this env:
 
 - **RESOLVER_1_VALUE**: dns domain (optional)
 
-- **LOGGING**: enabled if we want to enable rsyslog logging (optional)
 - **PRINT_CONFIG**: print config files on startup (optional)
+
+**There is important change - we moved to supervisord.**
+HAProxy can be started with different modes:
+- **simple**: configuration based on single file
+- **haproxy**: configuration based on environments
+- **multiconfig**: configuration based on multiple files
 
 You also need to mount folder with client certificates to /usr/local/etc/haproxy/certs/
 

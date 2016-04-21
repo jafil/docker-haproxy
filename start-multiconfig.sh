@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# should we enable logging
-if [ "${LOGGING}" == "enabled" ]; then
-    (rsyslogd -n &)
-fi
-
 MULTICONFIG="-f /etc/haproxy/haproxy.cfg"
 if [ ! -e "/etc/haproxy/haproxy.cfg" ]; then
   echo "You must have /etc/haproxy/haproxy.cfg"
