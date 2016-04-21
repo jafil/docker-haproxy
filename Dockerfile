@@ -18,7 +18,7 @@ RUN chmod +x /bin/start-*.sh \
     && rm -rf /var/lib/{apt,dpkg,cache,log}/ \
     && ln -sf /dev/stdout /var/log/haproxy.log
 
-RUN echo "[program:haproxy]\ncommand=/bin/start-%(ENV_START_MODE)s.sh\n#numprocs=1\nstdout_logfile=/dev/fd/1\nstdout_logfile_maxbytes=0\n\n[program:rsyslog]\ncommand=/usr/sbin/rsyslogd -n\nnumprocs=1\nstdout_logfile=/dev/fd/1\nstdout_logfile_maxbytes=0" > /etc/supervisor/conf.d/haproxy.conf
+RUN echo "[program:haproxy]\ncommand=/bin/start-%(ENV_START_MODE)s.sh\nstdout_logfile=syslog\nstderr_logfile=syslog\n[program:rsyslog]\ncommand=/usr/sbin/rsyslogd -n\nnumprocs=1\nstdout_logfile=/dev/fd/1\nstdout_logfile_maxbytes=0" > /etc/supervisor/conf.d/haproxy.conf
 
 ADD haproxy.rsyslog /etc/rsyslog.conf
 
