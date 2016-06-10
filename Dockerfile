@@ -21,4 +21,4 @@ RUN chmod +x /bin/start-*.sh \
 
 COPY haproxy.rsyslog /etc/rsyslog.conf
 
-ENTRYPOINT [ "/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf" ]
+ENTRYPOINT [ '/usr/bin/supervisord', '-n', '-c', '/etc/supervisor/supervisord.conf' ]
