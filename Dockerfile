@@ -18,7 +18,7 @@ RUN chmod +x /bin/start-*.sh \
     && apt-get autoremove --yes \
     && rm -rf /var/lib/{apt,dpkg,cache,log}/ \
     && ln -sf /dev/stdout /var/log/haproxy.log
-
+ 
 COPY haproxy.rsyslog /etc/rsyslog.conf
 
 ENTRYPOINT ["/usr/bin/supervisord","-n","-c","/etc/supervisor/supervisord.conf"]
