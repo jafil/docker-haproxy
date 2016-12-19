@@ -2,7 +2,7 @@ FROM oberthur/docker-ubuntu:16.04
 
 MAINTAINER Dawid Malinowski <d.malinowski@oberthur.com>
 
-ENV HAPROXY_VERSION=1.6.10 \
+ENV HAPROXY_VERSION=1.7.1 \
     START_MODE=haproxy
 
 COPY haproxy.cfg /etc/haproxy/haproxy.cfg.template
@@ -11,7 +11,7 @@ COPY supervisor.conf /etc/supervisor/conf.d/haproxy.conf
 
 # Prepare image
 RUN chmod +x /bin/start-*.sh \
-    && add-apt-repository ppa:vbernat/haproxy-1.6 \
+    && add-apt-repository ppa:vbernat/haproxy-1.7 \
     && apt-get update \
     && apt-get install rsyslog supervisor haproxy=${HAPROXY_VERSION}* \
     && apt-get clean autoclean \
