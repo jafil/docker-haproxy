@@ -31,6 +31,7 @@ HAProxy can be started with different modes:
 
 You also need to mount folder with client certificates to /usr/local/etc/haproxy/certs/
 
+Container will kill itself after any of the process will enter FATAL state. (This prevents bug with haproxy is dead, but rsyslog still works).
 Usage: 
 ```
 docker run --name haproxy -d -v /path/to/certs/:/usr/local/etc/haproxy/certs/ -e LISTENPORT=80 -e BACKEND_1_ACL="hdr_dom(server) -i BACKEND_1" -e BACKEND_1_ADDRESS=my-server.com -e BACKEND_1_PORT=443 -e BACKEND_1_CERTIFICATE=my-server.crt oberthur/docker-haproxy
