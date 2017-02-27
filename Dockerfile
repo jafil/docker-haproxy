@@ -8,9 +8,11 @@ ENV HAPROXY_VERSION=1.7.1 \
 COPY haproxy.cfg /etc/haproxy/haproxy.cfg.template
 COPY start-*.sh /bin/
 COPY supervisor.conf /etc/supervisor/conf.d/haproxy.conf
+COPY supervisord-watchdog /bin/supervisord-watchdog
 
 # Prepare image
 RUN chmod +x /bin/start-*.sh \
+    && chmod +x /bin/supervisord-watchdog \
     && add-apt-repository ppa:vbernat/haproxy-1.7 \
     && apt-get update \
     && apt-get install rsyslog supervisor haproxy=${HAPROXY_VERSION}* \
