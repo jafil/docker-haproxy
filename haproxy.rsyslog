@@ -3,8 +3,13 @@
 # if you experience problems, check:
 # http://www.rsyslog.com/troubleshoot
 
-module(load="imudp")       # UDP listener support
-
+# provides UDP syslog reception
+module(load="imudp")
 input(type="imudp" port="514")
 
-local2.*                                                action(type="omfile" file="/var/log/haproxy.log")
+# change default template to log levels in messages (technically known as priorities)
+$template CustomFormat,"%timegenerated% [%syslogseverity-text%] %syslogtag%%msg:::drop-last-lf%\n"
+$ActionFileDefaultTemplate CustomFormat
+
+# syslog facility used by haproxy
+local2.*    action(type="omfile" file="/var/log/haproxy.log")
