@@ -2,7 +2,7 @@ FROM oberthur/docker-ubuntu:16.04
 
 MAINTAINER Dawid Malinowski <d.malinowski@oberthur.com>
 
-ENV HAPROXY_VERSION=1.7.5  \
+ENV HAPROXY_VERSION=1.7.8  \
     START_MODE=haproxy
 
 COPY haproxy.cfg /etc/haproxy/haproxy.cfg.template
@@ -19,6 +19,7 @@ RUN chmod +x /bin/start-*.sh \
     && apt-get clean autoclean \
     && apt-get autoremove --yes \
     && rm -rf /var/lib/{apt,dpkg,cache,log}/ \
+    && rm -rf /etc/rsyslog.d/49* \
     && ln -sf /dev/stdout /var/log/haproxy.log
 
 COPY haproxy.rsyslog /etc/rsyslog.conf
